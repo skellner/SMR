@@ -318,8 +318,14 @@ void LEDDriver_setRGBLED(uint8_t led_number, uint32_t rgb){ //sets one RGB LED w
 	uint8_t driverAddr;
 
 	uint16_t c_red= (rgb >> 20) & 0b1111111111;
-	uint16_t c_green= (rgb >> 10) & 0b1111111111;
+
+  #ifdef MOUSER_LEDS
+	uint16_t c_blue= (rgb >> 10) & 0b1111111111;
+	uint16_t c_green= rgb & 0b1111111111;
+  #else
+  uint16_t c_green= (rgb >> 10) & 0b1111111111;
 	uint16_t c_blue= rgb & 0b1111111111;
+  #endif
 
 
 	if (led_number >=0 && led_number <= 24)	{
@@ -417,8 +423,3 @@ void LEDDriver_Init(uint8_t numdrivers){
 	}
 
 }
-
-
-
-
-
