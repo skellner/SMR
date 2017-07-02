@@ -271,14 +271,23 @@ void LEDDriver_set_LED_ring(uint16_t ring[20][3], uint16_t env_out[6][3]){
 
 		LEDDriver_senddata(0); //on-time = 0
 		LEDDriver_senddata(0);
-		LEDDriver_senddata(env_out[i][1] & 0xFF); //off-time = brightness
-		LEDDriver_senddata((env_out[i][1] >> 8) & 0xFF);
+    #ifdef KB_LEDS
+		  LEDDriver_senddata(env_out[i][2] & 0xFF); //off-time = brightness
+		  LEDDriver_senddata((env_out[i][2] >> 8) & 0xFF);
+    #else
+      LEDDriver_senddata(env_out[i][1] & 0xFF); //off-time = brightness
+      LEDDriver_senddata((env_out[i][1] >> 8) & 0xFF);
+    #endif
 
-		LEDDriver_senddata(0); //on-time = 0
-		LEDDriver_senddata(0);
-		LEDDriver_senddata(env_out[i][2] & 0xFF); //off-time = brightness
-		LEDDriver_senddata((env_out[i][2] >> 8) & 0xFF);
-
+		  LEDDriver_senddata(0); //on-time = 0
+		  LEDDriver_senddata(0);
+    #ifdef KB_LEDS
+		  LEDDriver_senddata(env_out[i][1] & 0xFF); //off-time = brightness
+		  LEDDriver_senddata((env_out[i][1] >> 8) & 0xFF);
+    #else
+      LEDDriver_senddata(env_out[i][2] & 0xFF); //off-time = brightness
+		  LEDDriver_senddata((env_out[i][2] >> 8) & 0xFF);
+    #endif
 	}
 
 	//Channel 6 ENVOUT LED: Red
@@ -319,12 +328,12 @@ void LEDDriver_setRGBLED(uint8_t led_number, uint32_t rgb){ //sets one RGB LED w
 
 	uint16_t c_red= (rgb >> 20) & 0b1111111111;
 
-  #ifdef MOUSER_LEDS
-	uint16_t c_blue= (rgb >> 10) & 0b1111111111;
-	uint16_t c_green= rgb & 0b1111111111;
+  #ifdef KB_LEDS
+    uint16_t c_blue= (rgb >> 10) & 0b1111111111;
+	  uint16_t c_green= rgb & 0b1111111111;
   #else
-  uint16_t c_green= (rgb >> 10) & 0b1111111111;
-	uint16_t c_blue= rgb & 0b1111111111;
+    uint16_t c_green= (rgb >> 10) & 0b1111111111;
+    uint16_t c_blue= rgb & 0b1111111111;
   #endif
 
 

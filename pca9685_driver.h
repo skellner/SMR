@@ -28,8 +28,8 @@
 #ifndef LED_DRIVER_H_
 #define LED_DRIVER_H_
 
-// different LED pinout
-#define MOUSER_LEDS
+// different LED pinout, G<->B
+#define KB_LEDS
 
 /* I2C peripheral configuration defines (control interface of the audio codec) */
 #define LEDDRIVER_I2C                      I2C1
